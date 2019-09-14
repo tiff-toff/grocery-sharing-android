@@ -58,13 +58,14 @@ def createacc():
 			result = cursor.fetchone()
 			if result != None:
 				connection.close()
-				return "User already exists"
+				return "False"
 		with connection.cursor() as cursor:
 			sql = "INSERT INTO User (Name, Username, Password, StreetAddress1, StreetAddress2, City, State, Zipcode, PhoneNumber) VALUES (%s, %s, %s,%s, %s,%s, %s,%s, %s);"
 			cursor.execute(sql,(name, username, password, street_address_1, street_address_2, city, state, zip_code, phone_number))
 		connection.commit()
 	finally:
 		connection.close()
+	return "True"
 
 @app.route('/login', methods = ["GET"])
 def login():
