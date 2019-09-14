@@ -87,13 +87,13 @@ def login():
 
 @app.route('/createrequest', methods = ["POST"])
 def createrequest():
-	#Active: 0-completed, 1-accepted, 3-open
+	#Active: 0-completed, 1-accepted, 2-open
 	#Type: 0 - Trip, 1 - Run
 	username = request.form["username"]
 	store = request.form["store"]
 	storeaddress = request.form["storeaddress"]
 	items = request.form["items"]
-	active = 3
+	active = 2
 	request_type = int(request.form['type'])
 	connection = connect()
 	try:
@@ -110,7 +110,7 @@ def gettrips():
 	connection = connect()
 	try:
 		with connection.cursor() as cursor:
-			sql = "SELECT (User, Store, StoreAddress, Items, TripNumber) FROM TripRequest WHERE Active = 3 AND Type = 0;"
+			sql = "SELECT (User, Store, StoreAddress, Items, TripNumber) FROM TripRequest WHERE Active = 2 AND Type = 0;"
 			cursor.execute(sql)
 			results = cursor.fetchall()
 	finally:
@@ -127,7 +127,7 @@ def getruns():
 	connection = connect()
 	try:
 		with connection.cursor() as cursor:
-			sql = "SELECT (User, Store, StoreAddress, Items, TripNumber) FROM TripRequest WHERE Active = 3 AND Type = 1;"
+			sql = "SELECT (User, Store, StoreAddress, Items, TripNumber) FROM TripRequest WHERE Active = 2 AND Type = 1;"
 			cursor.execute(sql)
 			results = cursor.fetchall()
 	finally:
