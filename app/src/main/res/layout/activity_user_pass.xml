@@ -7,7 +7,7 @@
     android:layout_marginLeft="25dp"
     android:layout_marginRight="25dp"
     android:layout_marginTop="25dp"
-    tools:context=".CreateAccount">
+    tools:context=".UserPass">
 
     <TextView
         android:id="@+id/titleView"
@@ -24,90 +24,50 @@
     />
 
     <EditText
-        android:id="@+id/firstName"
-        android:layout_width="wrap_content"
+        android:id="@+id/username"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:ems="8"
+        android:hint="Username"
         android:inputType="text"
-        android:hint="First Name"
-        app:layout_constraintHorizontal_bias="0"
-        app:layout_constraintTop_toBottomOf="@id/titleView"
-    />
-
-    <EditText
-        android:id="@+id/lastName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="8"
-        android:hint="Last Name"
-        android:inputType="text"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleView"
     />
 
     <EditText
-        android:id="@+id/addressLine1"
+        android:id="@+id/password1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Address Line 1"
-        android:inputType="text"
+        android:hint="Password"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/firstName"
+        app:layout_constraintTop_toBottomOf="@+id/username"
     />
 
     <EditText
-        android:id="@+id/addressLine2"
+        android:id="@+id/password2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Address Line 2"
-        android:inputType="text"
+        android:hint="Confirm password"
+        android:inputType="textPassword"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressLine1"
+        app:layout_constraintTop_toBottomOf="@+id/password1"
     />
 
-    <EditText
-        android:id="@+id/city"
+    <TextView
+        android:id="@+id/errorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="8"
-        android:hint="City"
-        android:inputType="text"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressLine2"
+        android:text="*Your passwords do not match!"
+        android:textColor="@android:color/holo_red_light"
+        android:textSize="15sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/password2"
+        app:layout_constraintVertical_bias="0"
+        app:layout_constraintHorizontal_bias="0"
     />
 
-    <EditText
-        android:id="@+id/zipCode"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="5"
-        android:hint="Zip Code"
-        android:inputType="number"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addressLine2"
-    />
-
-    <EditText
-        android:id="@+id/state"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="3"
-        android:hint="State"
-        android:inputType="text"
-        app:layout_constraintStart_toEndOf="@+id/city"
-        app:layout_constraintEnd_toStartOf="@+id/zipCode"
-        app:layout_constraintTop_toBottomOf="@+id/addressLine2"
-    />
-
-    <EditText
-        android:id="@+id/phoneNum"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Phone Number"
-        android:inputType="phone"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/city"
-    />
 
     <Button
         android:id="@+id/continueButton"
@@ -115,7 +75,7 @@
         android:layout_width="100dp"
         android:layout_height="50dp"
         android:text="Continue"
-        android:onClick="createUserPass"
+        android:onClick="submitAccount"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -138,5 +98,8 @@
         app:layout_constraintVertical_bias="0.6"
         app:layout_constraintHorizontal_bias="0.5"
     />
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
