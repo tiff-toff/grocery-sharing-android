@@ -56,7 +56,6 @@ public class CreateAccount extends AppCompatActivity implements UserVariables {
         Intent createUserPassIntent = new Intent(this, UserPass.class);
 
         collectUserData();
-        System.out.println(userData.toString());
         createUserPassIntent.putStringArrayListExtra(USER_DATA, (ArrayList)userData);
 
         startActivity(createUserPassIntent);
