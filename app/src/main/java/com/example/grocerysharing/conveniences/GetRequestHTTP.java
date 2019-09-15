@@ -19,11 +19,13 @@ public class GetRequestHTTP {
 
     private static HttpURLConnection con;
 
-    public static String sendGetRequest(String url) throws IOException {
+    public static String sendGetRequest(String url, String urlParameters) throws IOException {
 
         try {
 
-            URL myurl = new URL(url);
+            String fullURL = url + "?" + urlParameters;
+
+            URL myurl = new URL(fullURL);
             con = (HttpURLConnection) myurl.openConnection();
 
             con.setRequestMethod("GET");

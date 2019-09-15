@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -20,13 +21,14 @@ public class UserPass extends AppCompatActivity implements UserVariables {
 
     private static final String SEPARATOR = "&";
     private static final String EQUALS = "=";
-    private static final String URL = "http://3.19.245.83";
+    private static final String URL = "http://3.19.245.83/createacc";
 
     private TextView errorMsg;
     private ProgressBar loading;
     private Button button1;
     private Button button2;
     public List<String> userData;
+    private TextView myText = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,7 @@ public class UserPass extends AppCompatActivity implements UserVariables {
         return showPassword.getText().toString();
     }
 
-    private void sendAccountPost() throws IOException {
+    private void sendAccountPost() throws Exception {
         button1.setVisibility(View.GONE);
         button2.setVisibility(View.GONE);
         loading.setVisibility(View.VISIBLE);
@@ -84,6 +86,14 @@ public class UserPass extends AppCompatActivity implements UserVariables {
         parameters.append(PASSWORD).append(EQUALS).append(userData.get(9));
 
         String result = PostRequestHTTP.sendPostRequest(URL, parameters.toString());
+        LinearLayout lView = new LinearLayout(this);
+
+        myText = new TextView(this);
+        myText.setText(result);
+
+        lView.addView(myText);
+
+        setContentView(lView);
         if (result.equals("false")) {
             button1.setVisibility(View.VISIBLE);
             button2.setVisibility(View.VISIBLE);
@@ -91,7 +101,7 @@ public class UserPass extends AppCompatActivity implements UserVariables {
         }
     }
 
-    public void submitAccount(View view) throws IOException {
+    public void submitAccount(View view) throws Exception {
         String password1 = getPassword1();
         String password2 = getPassword2();
 
