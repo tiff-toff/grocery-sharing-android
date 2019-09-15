@@ -44,12 +44,12 @@ def createacc():
 	first_name = request.form['firstname']
 	last_name = request.form['lastname']
 	name = first_name + last_name
-	street_address_1 = request.form['streetaddress1']
-	street_address_2 =  request.form['streetaddress2']
-	city = request.form['city']
-	state = request.form['state']
-	zip_code = request.form['zipcode']
-	phone_number = request.form['phonenumber']
+	street_address_1 = request.form.get('streetaddress1')
+	street_address_2 =  request.form.get('streetaddress2')
+	city = request.form.get('city')
+	state = request.form.get('state')
+	zip_code = request.form.get('zipcode')
+	phone_number = request.form.get('phonenumber')
 	connection = connect()
 	try:
 		with connection.cursor() as cursor:
@@ -57,8 +57,7 @@ def createacc():
 			cursor.execute(sql,(username))
 			result = cursor.fetchone()
 			if result != None:
-				connection.close()
-				return "False"
+				return "Existing"
 		with connection.cursor() as cursor:
 			sql = "INSERT INTO User (Name, Username, Password, StreetAddress1, StreetAddress2, City, State, Zipcode, PhoneNumber) VALUES (%s, %s, %s,%s, %s,%s, %s,%s, %s);"
 			cursor.execute(sql,(name, username, password, street_address_1, street_address_2, city, state, zip_code, phone_number))
@@ -139,8 +138,8 @@ def getruns():
 		ret += ";"
 	return ret
 
-@app.route('/acceptrequests',methods = ["GET"])
-def acceptrequests():
+@app.route('/acceptrequest',methods = ["GET"])
+def acceptrequest():
 	acceptor = request.args["username"]
 	tripnumber = request.args["tripnumber"]
 	connection = connect()
@@ -153,7 +152,7 @@ def acceptrequests():
 		connection.commit()
 		with connection.cursor() as cursor:
 			sql = "INSERT INTO Accepted (Requester, Acceptor, TripNumber) VALUES (%s, %s, %s)"
-			cursor.execute(sql,(username, result["Name"], tripnumber))
+			cursor.execute(sql,(username, result["username"], tripnumber))
 			result = cursor.fetchone()
 		connection.commit()
 	finally:
@@ -166,13 +165,13 @@ def getuser():
 	result = 0
 	try:
 		with connection.cursor() as cursor:
-			sql = "SELECT * FROM User WHERE Username = %s"
+			sql = "SELECT * FROM User WHERE Username = %s;"
 			cursor.execute(sql,(username))
 			result = cursor.fetchone()
-	except:
+	finally:
 		connection.close()
 	info = result["Name"] + "," + result["PhoneNumber"] + "," + result["City"]
- 	return info
+	return info
 
 @app.route('/getrequest', methods = ["GET"])
 def getrequest():
@@ -187,6 +186,36 @@ def getrequest():
 	except:
 		connection.close()
 	info = result["Store"] + "," + result["StoreAddress"] + "," + result["Items"]
- 	return info
+	return info
+
+@app.route('/completerequest', methods = ["GET"])
+def completerequest():
+	tripnumber = request.args["tripnumber"]
+	connection = connect()
+	try:
+		with connection.cursor() as cursor:
+			sql = "UPDATE TripRequest SET Active = 1 WHERE TripNumber = %s"
+			sql = "DELETE FROM Accepted WHERE TripNumber = %s"
+			cursor.execute(sql,(tripnumber))
+			result = cursor.fetchone()
+		connection.commit()
+	except:
+		connection.close()
+	return 
+
+@app.route('/cancelrequest', methods = ["GET"])
+def cancelrequest():
+	tripnumber = request.args["tripnumber"]
+	connection = connect()
+	try:
+		with connection.cursor() as cursor:
+			sql = "UPDATE TripRequest SET Active = 2 WHERE TripNumber = %s"
+			sql = "DELETE FROM Accepted WHERE TripNumber = %s"
+			cursor.execute(sql,(tripnumber))
+			result = cursor.fetchone()
+		connection.commit()
+	except:
+		connection.close()
+	return
 if __name__ == "__main__":
 	app.run(host = "0.0.0.0", port = 80)
